@@ -23,9 +23,9 @@ medium_username: abubakkarsid415
 
 # Additional icon links
 additional_links:
-- title: itsgoingto.be
-  icon: fas fa-globe
-  url: https://www.itsgoingto.be
+- title: Medium Blog
+  icon: fab fa-medium-m
+  url: https://abubakkarsid415.medium.com
 # - title: another link
 #   icon: font awesome brand icon name (eg. fab fa-twitter) (https://fontawesome.com/icons?d=gallery&m=free)
 #   url: Link url (eg. https://google.com)
@@ -38,10 +38,10 @@ additional_links:
 
 # About Section
 # about_title: About Me
-#about_profile_image: /main/pic.jpeg
+about_profile_image: https://github.com/Abubakkar13/abubakkar13.github.io/blob/main/pic.jpeg
 about_content: | # this will include new lines to allow paragraphs
-  This is Abubakkar Siddique, a student, programmer and with Problem Solving Skills. Fond of Knowledge and Data repositories. Adept in making key decisions and working with other professionals to achieve goals and solve problems.
-  
+  This is Abubakkar Siddique, a student, programmer and with Problem Solving Skills. Fond of Knowledge and Data repositories.
+  Adept in making key decisions and working with other professionals to achieve goals and solve problems.
   Committed to utilizing my skills to further the Task completion. Well-rounded and professional team player dedicated to continuing academic pursuits at a collegiate level.
 
 content:
@@ -71,7 +71,7 @@ content:
         domain: Machine Learning with Python
         caption: August 2020 - October 2020
         quote: >
-          Solving 21st century problems by diging holes and making game changing products like the *not a flamethrower*
+          Successfully completed the Internship in Machine Learning.
         description: | # this will include new lines to allow paragraphs
             A team of enthusiasts who act as quantification instruments in assessing the abilities and imparting technical and interpersonal skills in students that are required in today's competitive market through our distinct methodologies
   - title: Education # Title for the section
@@ -82,7 +82,7 @@ content:
         caption: 2017 - 2021
         sub_title: BE - Computer Science and Engineering
         quote: >
-          Visvesvaraya Technological University (VTU, previously spelled "Visveswaraiah Technological University") is a collegiate public state university in Belagavi, Karnataka established by the Government of Karnataka.[10] Apart from a few notable exceptions, VTU has authority over engineering education throughout the state of Karnataka. It is a statutory requirement for colleges offering any program in engineering or technology in the state to be affiliated with the university. The university is named after M. Visvesvaraya from Karnataka, the only engineer to be awarded a Bharat Ratna, the highest civilian award in India.
+          Visvesvaraya Technological University(VTU) is a collegiate public state university in Belagavi, Karnataka established by the Government of Karnataka. Apart from a few notable exceptions, VTU has authority over engineering education throughout the state of Karnataka. It is a statutory requirement for colleges offering any program in engineering or technology in the state to be affiliated with the university. The university is named after M. Visvesvaraya from Karnataka, the only engineer to be awarded a Bharat Ratna, the highest civilian award in India.
         description: | # this will include new lines to allow paragraphs
           During my time at College I learnt most of my key skills that have I have taken through my career such as coding, problem solving and learned all required concepts. I thouroughly enjoyed my time as university and learnt a lot of Good things.
 
