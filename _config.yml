@@ -18,14 +18,15 @@ twitter_username: Abubakk62549788
 github_username:  abubakkar13
 instagram_username: abubakkar.siddique_
 linkedin_username: abubakkar-siddique-21b9351b2
-youtube_username: UC6UBKR1ZQ8bN3YxiKkeKO-g
-medium_username: abubakkarsid415
 
 # Additional icon links
 additional_links:
 - title: Medium Blog
   icon: fab fa-medium-m
   url: https://abubakkarsid415.medium.com
+- title: Youtube
+  icon: fab fa-youtube
+  url: https://www.youtube.com/channel/UC6UBKR1ZQ8bN3YxiKkeKO-g
 # - title: another link
 #   icon: font awesome brand icon name (eg. fab fa-twitter) (https://fontawesome.com/icons?d=gallery&m=free)
 #   url: Link url (eg. https://google.com)
