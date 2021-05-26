@@ -9,7 +9,6 @@ version: 2
 name: Abubakkar Siddique
 title: Summer Intern
 email: abubakkarsid415@gmail.com
-website: github.com/sproogen/modern-resume-theme
 
 # Dark Mode (true/false/never)
 darkmode: false
@@ -39,9 +38,10 @@ additional_links:
 
 # About Section
 # about_title: About Me
-about_profile_image: /main/pic.jpeg
+#about_profile_image: /main/pic.jpeg
 about_content: | # this will include new lines to allow paragraphs
   This is Abubakkar Siddique, a student, programmer and with Problem Solving Skills. Fond of Knowledge and Data repositories. Adept in making key decisions and working with other professionals to achieve goals and solve problems.
+  
   Committed to utilizing my skills to further the Task completion. Well-rounded and professional team player dedicated to continuing academic pursuits at a collegiate level.
 
 content:
