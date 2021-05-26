@@ -39,7 +39,7 @@ additional_links:
 
 # About Section
 # about_title: About Me
-about_profile_image: github.com/Abubakkar13/abubakkar13.github.io/blob/main/pic.jpeg
+about_profile_image: /main/pic.jpeg
 about_content: | # this will include new lines to allow paragraphs
   This is Abubakkar Siddique, a student, programmer and with Problem Solving Skills. Fond of Knowledge and Data repositories. Adept in making key decisions and working with other professionals to achieve goals and solve problems.
   Committed to utilizing my skills to further the Task completion. Well-rounded and professional team player dedicated to continuing academic pursuits at a collegiate level.
@@ -55,14 +55,11 @@ content:
         additional_links:
           - title:  sproogen/modern-resume-theme
             icon: fab fa-github
-            url: github.com/sproogen/modern-resume-theme
-          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
-          #   icon: fab fa-github
-          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
+            url: https://abubakkar13.github.io/
         quote: >
-          This is probably one of the greatest apps ever created, if you don't agree you're probably wrong.
+          This is probably one of the greatest project ever created, if you don't agree you're probably wrong.
         description: | # this will include new lines to allow paragraphs
-          I started this project as a way if learning <mark>Python</mark> and it has since grown into a fully fledged app. I have learned many skills through this and been I'm very proud of having this in my portfolio. If you don't have a project as awesome as this I would advise you make one.
+          I started this project as a way if learning *Python* and it has since grown into a fully fledged app. I have learned many skills through this and been I'm very proud of having this in my portfolio. If you don't have a project as awesome as this I would advise you make one.
 
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
