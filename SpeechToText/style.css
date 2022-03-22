@@ -1,0 +1,43 @@
+body {
+  background: #ff8030;
+  color: #f2efe2;
+  font-size: 18px;
+  align: center;
+}
+
+button {
+			    background-color:#6a67ce;
+			    color: #FFFFFF;
+			    border: 0px;
+			    cursor:pointer;
+			    border-radius: 5px;
+}
+button:focus {
+    outline: 0;
+}
+
+.mycontainer {
+    margin: 0 auto;
+    padding: 10px 30px;
+    text-align: center;
+}
+
+
+.mywebapp {
+    margin: 50px auto;
+}
+
+#textbox {
+    margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+  .mycontainer {
+    width: 85vw;
+    max-width: 85vw;
+  }
+
+    button {
+        margin-bottom: 10px;
+}
+}
