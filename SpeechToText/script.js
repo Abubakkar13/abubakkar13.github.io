@@ -46,7 +46,10 @@ $('#start-btn').on('click', function(e) {
 });
 
 
+$('#pause-btn').on('click', function(e) {
 
+    recognition.stop();
+});
 
 Textbox.on('input', function() {
   Content = $(this).val();
