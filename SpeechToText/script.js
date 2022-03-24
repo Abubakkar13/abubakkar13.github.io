@@ -42,7 +42,7 @@ recognition.onerror = function(event) {
 
 $('#start-btn').on('click', function(e) {
     setInterval(function(){
-    recognition.start();}, 30000);
+    recognition.start();}, 1000);
 });
 
 
