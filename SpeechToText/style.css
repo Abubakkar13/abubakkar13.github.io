@@ -6,11 +6,13 @@ body {
 }
 
 button {
-			    background-color:#6a67ce;
-			    color: #FFFFFF;
-			    border: 0px;
-			    cursor:pointer;
-			    border-radius: 12px;
+	 background-color:#6a67ce;
+         width : 100px;
+         height: 35px;
+	 color: #FFFFFF;
+         border: 0px;
+	 cursor:pointer;
+	 border-radius: 12px;
 }
 button:focus {
     outline: 0;
