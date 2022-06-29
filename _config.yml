@@ -25,16 +25,6 @@ additional_links:
   icon: fab fa-medium-m
   url: https://abubakkarsid415.medium.com
 
-# - title: another link
-#   icon: font awesome brand icon name (eg. fab fa-twitter) (https://fontawesome.com/icons?d=gallery&m=free)
-#   url: Link url (eg. https://google.com)
-
-# Google Analytics and Tag Manager
-# Using more than one of these may cause issues with reporting
-# gtm: "GTM-0000000"
-# gtag: "UA-00000000-0"
-# google_analytics: "UA-00000000-0"
-
 # About Section
 # about_title: About Me
 about_profile_image: pic.jpg
@@ -56,7 +46,7 @@ content:
             icon: fab fa-github
             url: https://abubakkar13.github.io/
         quote: >
-          This is probably one of the greatest project ever created, if you don't agree you're probably wrong.
+          This is probably one of the good project ever done, During my course with Jovian.ai.
         description: | # this will include new lines to allow paragraphs
           I started this project as a way if learning *Python* and it has since grown into a fully fledged project. I have learned many skills through this and been I'm very proud of having this in my portfolio. If you don't have a project as awesome as this I would advise you make one.
 
@@ -65,15 +55,15 @@ content:
     layout: list # Type of content section (list/text)
     content:
        - layout: left
-        title: Goalstreet
-        link: https://www.mygoalstreet.com
-        sub_title: Summer Intern
-        domain: Machine Learning with Python
-        caption: August 2020 - October 2020
+        title: MC
+        link: --
+        sub_title: Software Engineer
+        domain: Java Developer
+        caption: August 2021 - Present
         quote: >
-          Successfully completed the Internship in Machine Learning.
+          Currently working here as a Software Engineer, 
         description: | # this will include new lines to allow paragraphs
-            A team of enthusiasts who act as quantification instruments in assessing the abilities and imparting technical and interpersonal skills in students that are required in today's competitive market through our distinct methodologies
+            > It's a Information Tech company, from where i have started my Career.
       - layout: left
         title: Goalstreet
         link: https://www.mygoalstreet.com
@@ -81,7 +71,7 @@ content:
         domain: Machine Learning with Python
         caption: August 2020 - October 2020
         quote: >
-          Successfully completed the Internship in Machine Learning.
+          Successfully completed the Internship in Machine Learning DUring my Engineering course.
         description: | # this will include new lines to allow paragraphs
             A team of enthusiasts who act as quantification instruments in assessing the abilities and imparting technical and interpersonal skills in students that are required in today's competitive market through our distinct methodologies
   - title: Education # Title for the section
@@ -91,6 +81,7 @@ content:
         title: Visvesvaraya Technological University
         caption: 2017 - 2021
         sub_title: BE - Computer Science and Engineering
+        sub_title: Course Rank: FIRST
         quote: >
           Visvesvaraya Technological University(VTU) is a collegiate public state university in Belagavi, Karnataka established by the Government of Karnataka. Apart from a few notable exceptions, VTU has authority over engineering education throughout the state of Karnataka. It is a statutory requirement for colleges offering any program in engineering or technology in the state to be affiliated with the university. The university is named after M. Visvesvaraya from Karnataka, the only engineer to be awarded a Bharat Ratna, the highest civilian award in India.
         description: | # this will include new lines to allow paragraphs
@@ -100,10 +91,10 @@ content:
     layout: text
     content: | # this will include new lines to allow paragraphs
       Alongside my interests in Coding and Problem Solving some of my other interests and hobbies are:
+      - Coding [Python, Java, Web Dev]
       - Cricket
       - Gaming
-      - Internet Exploring
-      - Enthusiast of Becoming a Data Analyst
+      - Internet Surfing
 
 # Footer
 footer_show_references: true
