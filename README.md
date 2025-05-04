@@ -38,4 +38,4 @@
 git clone https://github.com/Abubakkar13/abubakkar13.github.io.git
 
 # serve locally
-Open index.html file
+Open Chromify/index.html file
