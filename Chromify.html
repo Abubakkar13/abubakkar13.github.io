@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromify | Advanced Color Picker Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="canonical" href="https://rgbcolorpicker.com/0-1">
+	
+	<style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .color-preview {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .color-gradient {
+            background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+        }
+        
+        .slider-thumb::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .slider-thumb-red::-webkit-slider-thumb {
+            background: #ef4444;
+        }
+        
+        .slider-thumb-green::-webkit-slider-thumb {
+            background: #10b981;
+        }
+        
+        .slider-thumb-blue::-webkit-slider-thumb {
+            background: #3b82f6;
+        }
+        
+        .slider-thumb-alpha::-webkit-slider-thumb {
+            background: #6b7280;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.5s ease-out forwards;
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.5s ease-out forwards;
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .scale-in {
+            animation: scaleIn 0.5s ease-out forwards;
+        }
+        
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .gradient-picker {
+            position: relative;
+            cursor: crosshair;
+        }
+        
+        .picker-circle {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
+        }
+        
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+        
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-sm shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500"></div>
+                    <span class="text-xl font-bold text-gray-800">Chromify</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-blue-500 transition">Features</a>
+                    <a href="#benefits" class="text-gray-600 hover:text-blue-500 transition">Benefits</a>
+                    <a href="#tool" class="text-gray-600 hover:text-blue-500 transition">Tool</a>
+                    <a href="#contact" class="text-gray-600 hover:text-blue-500 transition">Connect</a>
+                </div>
+                <button class="md:hidden focus:outline-none">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg">
+        <div class="container mx-auto px-6 py-20 md:py-32">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0 slide-in-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 leading-tight mb-6">
+                        Precision Color <span class="text-blue-500">Picker</span> for Developers
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-600 mb-8 max-w-lg">
+                        Chromify helps you work with colors in the normalized 0-1 RGB range, perfect for shaders, simulations, and creative coding.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#tool" class="px-8 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition shadow-lg hover:shadow-xl">
+                            Try It Now
+                        </a>
+                        <a href="#features" class="px-8 py-3 border border-blue-500 text-blue-500 rounded-lg font-medium hover:bg-blue-50 transition">
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 scale-in">
+                    <div class="relative">
+                        <div class="w-full h-80 md:h-96 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl shadow-xl overflow-hidden relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-64 h-64 rounded-full bg-white/20 backdrop-blur-sm"></div>
+                            </div>
+                            <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent text-white">
+                                <h3 class="text-xl font-semibold">RGB Float Color Picker</h3>
+                                <p class="text-sm opacity-80">Adjust values between 0.0 and 1.0</p>
+                            </div>
+                        </div>
+                        <div class="absolute -top-6 -right-6 w-24 h-24 rounded-2xl bg-yellow-400 shadow-lg"></div>
+                        <div class="absolute -bottom-6 -left-6 w-20 h-20 rounded-2xl bg-pink-400 shadow-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Why Use Chromify?</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Designed specifically for developers working with normalized color values</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition fade-in" style="animation-delay: 0.1s;">
+                    <div class="w-14 h-14 rounded-lg bg-blue-100 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Normalized RGB Values</h3>
+                    <p class="text-gray-600">Work directly with 0-1 float values perfect for shaders, WebGL, and creative coding projects.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition fade-in" style="animation-delay: 0.2s;">
+                    <div class="w-14 h-14 rounded-lg bg-purple-100 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Multiple Formats</h3>
+                    <p class="text-gray-600">Get hexadecimal, RGBA, and float values all in one place with easy copy functionality.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition fade-in" style="animation-delay: 0.3s;">
+                    <div class="w-14 h-14 rounded-lg bg-green-100 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Eyedropper Tool</h3>
+                    <p class="text-gray-600">Pick colors directly from your screen with our built-in color picker (requires browser permission).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tool Section -->
+    <section id="tool" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Chromify Color Picker</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Adjust colors using normalized RGB values between 0.0 and 1.0</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden fade-in">
+                <div class="p-8">
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <!-- Color Preview -->
+                        <div class="md:w-1/3 mt-2">
+                            <div class="color-preview w-full aspect-square rounded-xl mb-4" id="colorPreview"></div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">HEX</p>
+                                    <div class="flex items-center">
+                                        <input type="text" id="hexValue" class="bg-gray-100 px-3 py-2 rounded-lg font-mono w-32" readonly>
+                                        <button id="copyHex" class="ml-2 p-2 text-gray-500 hover:text-blue-500 transition tooltip">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                            </svg>
+                                            <span class="tooltip-text">Copy to clipboard</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500">RGBA</p>
+                                    <div class="flex items-center">
+                                        <input type="text" id="rgbaValue" class="bg-gray-100 px-3 py-2 rounded-lg font-mono w-60" readonly>
+                                        <button id="copyRgba" class="ml-2 p-2 text-gray-500 hover:text-blue-500 transition tooltip">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                                            </svg>
+                                            <span class="tooltip-text">Copy to clipboard</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Color Controls -->
+                        <div class="md:w-2/3">
+                            <!-- RGB Sliders -->
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label for="redSlider" class="text-sm font-medium text-red-500">Red</label>
+                                    <input type="number" id="redInput" min="0" max="1" step="0.01" class="w-16 px-2 py-1 border rounded text-sm font-mono">
+                                </div>
+                                <input type="range" id="redSlider" min="0" max="1" step="0.01" value="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb slider-thumb-red">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label for="greenSlider" class="text-sm font-medium text-green-500">Green</label>
+                                    <input type="number" id="greenInput" min="0" max="1" step="0.01" class="w-16 px-2 py-1 border rounded text-sm font-mono">
+                                </div>
+                                <input type="range" id="greenSlider" min="0" max="1" step="0.01" value="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb slider-thumb-green">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label for="blueSlider" class="text-sm font-medium text-blue-500">Blue</label>
+                                    <input type="number" id="blueInput" min="0" max="1" step="0.01" class="w-16 px-2 py-1 border rounded text-sm font-mono">
+                                </div>
+                                <input type="range" id="blueSlider" min="0" max="1" step="0.01" value="0.5" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb slider-thumb-blue">
+                            </div>
+                            
+                            <!-- Alpha Slider -->
+                            <div class="mb-6">
+                                <div class="flex items-center justify-between mb-2">
+                                    <label for="alphaSlider" class="text-sm font-medium text-gray-500">Alpha/Opacity</label>
+                                    <input type="number" id="alphaInput" min="0" max="1" step="0.01" value="1" class="w-16 px-2 py-1 border rounded text-sm font-mono">
+                                </div>
+                                <input type="range" id="alphaSlider" min="0" max="1" step="0.01" value="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider-thumb slider-thumb-alpha">
+                            </div>
+                            
+                            <!-- Eyedropper Button -->
+                            <br><button id="eyedropperBtn" class=" mb-6 flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                                </svg>
+                                Pick color from screen
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 2D Gradient Picker -->
+                    <div class="mt-8">
+                        <h3 class="text-lg font-medium text-gray-800 mb-3">Fine-tune your color</h3>
+                        <div class="relative w-full h-48 rounded-xl overflow-hidden gradient-picker" id="gradientPicker">
+                            <div class="absolute inset-0" id="gradientCanvas"></div>
+                            <div class="picker-circle" id="pickerCircle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Powerful Features</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Everything you need for precise color work</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-6 rounded-xl fade-in" style="animation-delay: 0.1s;">
+                    <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Float Precision</h3>
+                    <p class="text-gray-600">Work with RGB values in the 0.0 to 1.0 range, essential for shaders and graphics programming.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl fade-in" style="animation-delay: 0.2s;">
+                    <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">2D Gradient Picker</h3>
+                    <p class="text-gray-600">Fine-tune saturation and brightness with our intuitive 2D color plane.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl fade-in" style="animation-delay: 0.3s;">
+                    <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Copy Formats</h3>
+                    <p class="text-gray-600">Easily copy colors in HEX, RGBA, or float formats with one click.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl fade-in" style="animation-delay: 0.4s;">
+                    <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Alpha Channel</h3>
+                    <p class="text-gray-600">Adjust transparency with the alpha channel for complete color control.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl fade-in" style="animation-delay: 0.5s;">
+                    <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Free Forever</h3>
+                    <p class="text-gray-600">Chromify is completely free to use with no hidden costs or limitations.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-xl fade-in" style="animation-delay: 0.6s;">
+                    <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Privacy Focused</h3>
+                    <p class="text-gray-600">All processing happens in your browser - no data is sent to our servers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 gradient-bg">
+        <div class="container mx-auto px-6 text-center">
+            <div class="max-w-3xl mx-auto fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-6">Ready to enhance your color workflow?</h2>
+                <p class="text-lg text-gray-600 mb-8">Chromify is completely free to use with no limitations. Start using it today to simplify your color work.</p>
+                <a href="#tool" class="inline-block px-8 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition shadow-lg hover:shadow-xl">
+                    Try Chromify Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Connect With Us</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">Have feedback or questions? We'd love to hear from you.</p>
+            </div>
+            
+            <div class="max-w-2xl mx-auto bg-gray-50 rounded-xl p-8 shadow-md fade-in">
+                <form>
+                    <div class="mb-6">
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                        <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                        <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="w-full px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition">
+                        Send Message
+                    </button>
+                </form>
+                
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <div class="flex justify-center space-x-6">
+                        <a href="#" class="text-gray-500 hover:text-blue-500 transition">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-blue-500 transition">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-blue-500 transition">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.09.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.025A9.564 9.564 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.293 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-blue-500 transition">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-2 mb-6 md:mb-0">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-purple-500"></div>
+                    <span class="text-xl font-bold">Chromify</span>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-8">
+                    <a href="#features" class="hover:text-blue-300 transition">Features</a>
+                    <a href="#benefits" class="hover:text-blue-300 transition">Benefits</a>
+                    <a href="#tool" class="hover:text-blue-300 transition">Tool</a>
+                    <a href="#contact" class="hover:text-blue-300 transition">Contact</a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© <span id="currentYear"></span> Chromify. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Initialize color picker
+        document.addEventListener('DOMContentLoaded', function() {
+            // Color variables
+            let red = 0.5;
+            let green = 0.5;
+            let blue = 0.5;
+            let alpha = 1.0;
+            let hue = 0;
+            let saturation = 1;
+            let brightness = 1;
+            
+            // DOM elements
+            const colorPreview = document.getElementById('colorPreview');
+            const hexValue = document.getElementById('hexValue');
+            const rgbaValue = document.getElementById('rgbaValue');
+            const redSlider = document.getElementById('redSlider');
+            const greenSlider = document.getElementById('greenSlider');
+            const blueSlider = document.getElementById('blueSlider');
+            const alphaSlider = document.getElementById('alphaSlider');
+            const redInput = document.getElementById('redInput');
+            const greenInput = document.getElementById('greenInput');
+            const blueInput = document.getElementById('blueInput');
+            const alphaInput = document.getElementById('alphaInput');
+            const copyHex = document.getElementById('copyHex');
+            const copyRgba = document.getElementById('copyRgba');
+            const eyedropperBtn = document.getElementById('eyedropperBtn');
+            const gradientPicker = document.getElementById('gradientPicker');
+            const pickerCircle = document.getElementById('pickerCircle');
+            const gradientCanvas = document.getElementById('gradientCanvas');
+            
+            // Initialize values
+            redInput.value = red;
+            greenInput.value = green;
+            blueInput.value = blue;
+            alphaInput.value = alpha;
+            
+            // Create canvas for gradient picker
+            const canvas = document.createElement('canvas');
+            canvas.width = gradientPicker.offsetWidth;
+            canvas.height = gradientPicker.offsetHeight;
+            gradientCanvas.appendChild(canvas);
+            const ctx = canvas.getContext('2d');
+            
+            // Update color preview and values
+            function updateColor() {
+                // Update preview
+                colorPreview.style.backgroundColor = `rgba(${Math.round(red * 255)}, ${Math.round(green * 255)}, ${Math.round(blue * 255)}, ${alpha})`;
+                
+                // Update hex value
+                const hex = rgbToHex(Math.round(red * 255), Math.round(green * 255), Math.round(blue * 255));
+                hexValue.value = hex;
+                
+                // Update rgba value
+                rgbaValue.value = `rgba(${Math.round(red * 255)}, ${Math.round(green * 255)}, ${Math.round(blue * 255)}, ${alpha})`;
+                
+                // Update gradient picker
+                updateGradientPicker();
+                
+                // Convert RGB to HSV for the gradient picker
+                const hsv = rgbToHsv(red, green, blue);
+                hue = hsv.h;
+                saturation = hsv.s;
+                brightness = hsv.v;
+                
+                // Position picker circle
+                pickerCircle.style.left = `${saturation * 100}%`;
+                pickerCircle.style.top = `${(1 - brightness) * 100}%`;
+                pickerCircle.style.borderColor = brightness > 0.5 ? '#fff' : '#000';
+            }
+            
+            // Update gradient picker
+            function updateGradientPicker() {
+                const width = canvas.width;
+                const height = canvas.height;
+                
+                // Create gradient
+                const gradient = ctx.createLinearGradient(0, 0, width, 0);
+                gradient.addColorStop(0, `hsl(${hue * 360}, 0%, ${brightness * 100}%)`);
+                gradient.addColorStop(1, `hsl(${hue * 360}, 100%, ${brightness * 100}%)`);
+                
+                // Fill with gradient
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, width, height);
+                
+                // Add brightness gradient
+                const brightnessGradient = ctx.createLinearGradient(0, 0, 0, height);
+                brightnessGradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+                brightnessGradient.addColorStop(1, 'rgba(0, 0, 0, 1)');
+                
+                ctx.fillStyle = brightnessGradient;
+                ctx.fillRect(0, 0, width, height);
+            }
+            
+            // Convert RGB to Hex
+            function rgbToHex(r, g, b) {
+                return '#' + [r, g, b].map(x => {
+                    const hex = x.toString(16);
+                    return hex.length === 1 ? '0' + hex : hex;
+                }).join('');
+            }
+            
+            // Convert RGB to HSV
+            function rgbToHsv(r, g, b) {
+                const max = Math.max(r, g, b);
+                const min = Math.min(r, g, b);
+                const delta = max - min;
+                
+                let h = 0;
+                if (delta !== 0) {
+                    if (max === r) h = (g - b) / delta % 6;
+                    else if (max === g) h = (b - r) / delta + 2;
+                    else h = (r - g) / delta + 4;
+                    h = h / 6;
+                    if (h < 0) h += 1;
+                }
+                
+                const s = max === 0 ? 0 : delta / max;
+                const v = max;
+                
+                return { h, s, v };
+            }
+            
+            // Convert HSV to RGB
+            function hsvToRgb(h, s, v) {
+                let r, g, b;
+                
+                const i = Math.floor(h * 6);
+                const f = h * 6 - i;
+                const p = v * (1 - s);
+                const q = v * (1 - f * s);
+                const t = v * (1 - (1 - f) * s);
+                
+                switch (i % 6) {
+                    case 0: r = v; g = t; b = p; break;
+                    case 1: r = q; g = v; b = p; break;
+                    case 2: r = p; g = v; b = t; break;
+                    case 3: r = p; g = q; b = v; break;
+                    case 4: r = t; g = p; b = v; break;
+                    case 5: r = v; g = p; b = q; break;
+                }
+                
+                return { r, g, b };
+            }
+            
+            // Event listeners for sliders
+            redSlider.addEventListener('input', function() {
+                red = parseFloat(this.value);
+                redInput.value = red;
+                updateColor();
+            });
+            
+            greenSlider.addEventListener('input', function() {
+                green = parseFloat(this.value);
+                greenInput.value = green;
+                updateColor();
+            });
+            
+            blueSlider.addEventListener('input', function() {
+                blue = parseFloat(this.value);
+                blueInput.value = blue;
+                updateColor();
+            });
+            
+            alphaSlider.addEventListener('input', function() {
+                alpha = parseFloat(this.value);
+                alphaInput.value = alpha;
+                updateColor();
+            });
+            
+            // Event listeners for input fields
+            redInput.addEventListener('input', function() {
+                let value = parseFloat(this.value);
+                if (isNaN(value)) value = 0;
+                if (value < 0) value = 0;
+                if (value > 1) value = 1;
+                red = value;
+                redSlider.value = red;
+                this.value = red;
+                updateColor();
+            });
+            
+            greenInput.addEventListener('input', function() {
+                let value = parseFloat(this.value);
+                if (isNaN(value)) value = 0;
+                if (value < 0) value = 0;
+                if (value > 1) value = 1;
+                green = value;
+                greenSlider.value = green;
+                this.value = green;
+                updateColor();
+            });
+            
+            blueInput.addEventListener('input', function() {
+                let value = parseFloat(this.value);
+                if (isNaN(value)) value = 0;
+                if (value < 0) value = 0;
+                if (value > 1) value = 1;
+                blue = value;
+                blueSlider.value = blue;
+                this.value = blue;
+                updateColor();
+            });
+            
+            alphaInput.addEventListener('input', function() {
+                let value = parseFloat(this.value);
+                if (isNaN(value)) value = 0;
+                if (value < 0) value = 0;
+                if (value > 1) value = 1;
+                alpha = value;
+                alphaSlider.value = alpha;
+                this.value = alpha;
+                updateColor();
+            });
+            
+            // Copy to clipboard
+            copyHex.addEventListener('click', function() {
+                navigator.clipboard.writeText(hexValue.value).then(function() {
+                    const tooltip = this.querySelector('.tooltip-text');
+                    tooltip.textContent = 'Copied!';
+                    setTimeout(() => {
+                        tooltip.textContent = 'Copy to clipboard';
+                    }, 2000);
+                }.bind(this));
+            });
+            
+            copyRgba.addEventListener('click', function() {
+                navigator.clipboard.writeText(rgbaValue.value).then(function() {
+                    const tooltip = this.querySelector('.tooltip-text');
+                    tooltip.textContent = 'Copied!';
+                    setTimeout(() => {
+                        tooltip.textContent = 'Copy to clipboard';
+                    }, 2000);
+                }.bind(this));
+            });
+            
+            // Eyedropper tool
+            eyedropperBtn.addEventListener('click', function() {
+                if (!window.EyeDropper) {
+                    alert('Eyedropper API is not supported in your browser. Try Chrome or Edge.');
+                    return;
+                }
+                
+                const eyeDropper = new EyeDropper();
+                eyeDropper.open()
+                    .then(result => {
+                        const hex = result.sRGBHex;
+                        // Convert hex to RGB
+                        const r = parseInt(hex.slice(1, 3), 16) / 255;
+                        const g = parseInt(hex.slice(3, 5), 16) / 255;
+                        const b = parseInt(hex.slice(5, 7), 16) / 255;
+                        
+                        red = r;
+                        green = g;
+                        blue = b;
+                        
+                        redSlider.value = red;
+                        greenSlider.value = green;
+                        blueSlider.value = blue;
+                        redInput.value = red;
+                        greenInput.value = green;
+                        blueInput.value = blue;
+                        
+                        updateColor();
+                    })
+                    .catch(e => {
+                        console.error('EyeDropper error:', e);
+                    });
+            });
+            
+            // Gradient picker interaction
+            let isDragging = false;
+            
+            gradientPicker.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                handleGradientPick(e);
+            });
+            
+            gradientPicker.addEventListener('mousemove', function(e) {
+                if (isDragging) {
+                    handleGradientPick(e);
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+            });
+            
+            gradientPicker.addEventListener('touchstart', function(e) {
+                isDragging = true;
+                handleGradientPick(e.touches[0]);
+                e.preventDefault();
+            });
+            
+            gradientPicker.addEventListener('touchmove', function(e) {
+                if (isDragging) {
+                    handleGradientPick(e.touches[0]);
+                    e.preventDefault();
+                }
+            });
+            
+            document.addEventListener('touchend', function() {
+                isDragging = false;
+            });
+            
+            function handleGradientPick(e) {
+                const rect = gradientPicker.getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                let y = e.clientY - rect.top;
+                
+                // Constrain to bounds
+                x = Math.max(0, Math.min(rect.width, x));
+                y = Math.max(0, Math.min(rect.height, y));
+                
+                // Calculate saturation and brightness
+                saturation = x / rect.width;
+                brightness = 1 - (y / rect.height);
+                
+                // Convert HSV to RGB
+                const rgb = hsvToRgb(hue, saturation, brightness);
+                red = rgb.r;
+                green = rgb.g;
+                blue = rgb.b;
+                
+                // Update sliders and inputs
+                redSlider.value = red;
+                greenSlider.value = green;
+                blueSlider.value = blue;
+                redInput.value = red;
+                greenInput.value = green;
+                blueInput.value = blue;
+                
+                // Update color
+                updateColor();
+                
+                // Position picker circle
+                pickerCircle.style.left = `${saturation * 100}%`;
+                pickerCircle.style.top = `${(1 - brightness) * 100}%`;
+                pickerCircle.style.borderColor = brightness > 0.5 ? '#fff' : '#000';
+            }
+            
+            // Initial update
+            updateColor();
+            
+            // Scroll animations
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementPosition < windowHeight - 100) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translate(0) scale(1)';
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', animateOnScroll);
+            animateOnScroll(); // Run once on load
+        });
+    </script>
+</body>
+</html>
