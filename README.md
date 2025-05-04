@@ -35,7 +35,7 @@
 
 ```bash
 # clone the repo
-git clone https://github.com/your-username/chromify.git
+git clone https://github.com/Abubakkar13/abubakkar13.github.io.git
 
 # serve locally
 Open index.html file
