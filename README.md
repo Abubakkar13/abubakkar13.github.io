@@ -3,7 +3,7 @@
 
 **Precision Color Picker for Developers**
 
-Link: https://abubakkar13.github.io/Chromify/
+Link: <a href='https://abubakkar13.github.io/Chromify/'>Chromify</a>
 
 ---
 
