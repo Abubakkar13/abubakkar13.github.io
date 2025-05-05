@@ -3,6 +3,8 @@
 
 **Precision Color Picker for Developers**
 
+Link: https://abubakkar13.github.io/Chromify/
+
 ---
 
 **Chromify** helps you work with colors in the normalized 0.0–1.0 RGB range—perfect for shaders, simulations, WebGL experiments, and creative coding.
